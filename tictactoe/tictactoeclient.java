@@ -149,5 +149,39 @@ public class GameClient extends GameClientUI {
         }
     }
 }
+import javax.swing.*;
+import java.awt.*;
+
+public class GameLauncher {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Pilih Pemain");
+            String[] players = {"Player 1", "Player 2", "Player 3"};
+            JComboBox<String> playerList = new JComboBox<>(players);
+            JButton connectButton = new JButton("Connect");
+
+            connectButton.addActionListener(e -> {
+                String selectedPlayer = (String) playerList.getSelectedItem();
+                frame.dispose();
+                try {
+                    String ip = "192.168.48.71"; // Ganti sesuai IP server
+                    new GameClient(ip, selectedPlayer);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Tidak dapat terhubung ke server.");
+                }
+            });
+
+            frame.setLayout(new FlowLayout());
+            frame.add(new JLabel("Pilih Sebagai:"));
+            frame.add(playerList);
+            frame.add(connectButton);
+            frame.setSize(250, 100);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}
+
 }
 
